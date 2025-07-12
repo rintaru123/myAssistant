@@ -67,7 +67,7 @@ This application is built with Python and PyQt6.
 
 ## 📜 License
 
-The source code of this project is licensed under the **[Choose a License, e.g., MIT License]**.
+The source code of this project is licensed under the **MIT License**.
 
 This program uses the **PyQt6** framework, which is licensed under the **GNU General Public License v3 (GPLv3)**. This means that if you distribute this application (or a modified version of it), you must also make the source code available under a GPL-compatible license.
 
