@@ -1,0 +1,69 @@
+# My Assistant - A Compact Desktop Helper
+
+A sleek, modern desktop assistant that lives on the edge of your screen, providing quick access to your tasks and notes. Features a unique, immersive "Zen Mode" for focused writing.
+
+This project was born from a fantastic collaboration between a dedicated user and Google's AI assistant, evolving from a simple idea into a feature-rich, polished application.
+
+---
+
+**[Add a cool screenshot or GIF of the app in action here!]**
+
+---
+
+## ✨ Features
+
+*   **Slide-Out Interface:** Access your tasks and notes instantly from a trigger button on the edge of your screen.
+*   **Task Management:**
+    *   Quickly add, delete, and edit tasks.
+    *   Mark tasks as complete with a satisfying circular, theme-aware checkbox.
+    *   Hide completed tasks to keep your list clean.
+*   **Note Taking:**
+    *   A powerful notes panel for all your ideas.
+    *   **Markdown Support:** Write notes with formatting like `**bold**`, `*italics*`, and more.
+    *   **Tagging System:** Organize your notes with hashtags (e.g., `#project`, `#ideas`) and filter by them.
+    *   Full-text search to find any note instantly.
+*   **Zen Mode:**
+    *   An immersive, distraction-free writing environment that hides all other UI.
+    *   **Built-in Pomodoro Timer** to help you focus.
+    *   **Ambient Audio Player** with playlist and single-track support.
+    *   Live word count.
+    *   Fully customizable background, theme, and **fonts**.
+*   **Deep Customization:**
+    *   Choose between **light** and **dark** themes for the entire application.
+    *   Set a custom **accent color** that affects buttons and UI elements.
+    *   Position the trigger button on the **left or right** side of the screen.
+*   **Data Safety:**
+    *   **Automatic Backups:** Creates a backup of your data every 10 minutes.
+    *   **Restore Function:** Easily restore your data from the last backup via the context menu.
+    *   **Markdown Export:** Export all your notes into a single, clean `.md` file.
+
+## 🚀 Setup & Installation
+
+This application is built with Python and PyQt6.
+
+1.  **Install Dependencies:**
+    Make sure you have Python 3 installed. Then, install the required library:
+    ```bash
+    pip install PyQt6
+    ```
+
+2.  **(Optional) Add Audio Files:**
+    Create a folder named `zen_audio` in the same directory as the script. Place any `.mp3` or `.wav` files inside it to use them in the Zen Mode audio player.
+
+3.  **(Optional) Add Pomodoro Sound:**
+    Place a short sound file named `pomodoro_end.wav` in the same directory as the script. This sound will play when a Pomodoro session ends.
+
+4.  **Run the Application:**
+    ```bash
+    python your_script_name.py
+    ```
+
+## 📜 License
+
+The source code of this project is licensed under the **[Choose a License, e.g., MIT License]**.
+
+This program uses the **PyQt6** framework, which is licensed under the **GNU General Public License v3 (GPLv3)**. This means that if you distribute this application (or a modified version of it), you must also make the source code available under a GPL-compatible license.
+
+## 🙏 Acknowledgements
+
+This project was brought to life through a wonderful collaboration between a dedicated user with a keen eye for detail and Google's AI assistant. Every feature, bug fix, and UI polish is the result of our joint effort. Thank you for this incredible journey!
