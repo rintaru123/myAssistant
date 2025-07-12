@@ -5,8 +5,15 @@ A sleek, modern desktop assistant that lives on the edge of your screen, providi
 This project was born from a fantastic collaboration between a dedicated user and Google's AI assistant, evolving from a simple idea into a feature-rich, polished application.
 
 ---
+![Blank project](https://github.com/rintaru123/myAssistant/blob/main/screenshots/%D0%9F%D1%83%D1%81%D1%82%D0%BE%D0%B9%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82.png)
 
-**[Add a cool screenshot or GIF of the app in action here!]**
+![Project with some data](https://github.com/rintaru123/myAssistant/blob/main/screenshots/%D0%97%D0%B0%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82.png)
+
+![Zen mode](https://github.com/rintaru123/myAssistant/blob/main/screenshots/Zen%20mode.png)
+
+![Settings](https://github.com/rintaru123/myAssistant/blob/main/screenshots/Settings.png)
+
+![About](https://github.com/rintaru123/myAssistant/blob/main/screenshots/%D0%9E%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B5.png)
 
 ---
 
