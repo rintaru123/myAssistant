@@ -4,7 +4,7 @@ import os
 import re
 import shutil
 from datetime import datetime
-from PyQt6.QtWidgets import (QApplication, QWidget, QPushButton, QVBoxLayout,
+from PyQt6.QtWidgets import (QApplication, QWidget, QPushButton, QVBoxLayout,QScrollArea,
                              QLabel, QLineEdit, QListWidget, QListWidgetItem,
                              QHBoxLayout, QCheckBox, QTextEdit, QSplitter,
                              QStyle, QMenu, QDialog, QFileDialog, QDialogButtonBox,
@@ -48,6 +48,7 @@ class LocalizationManager(QObject):
         self.current_lang = default_lang
         
     def _ensure_locales_exist(self):
+        # ... (Код локализации остается без изменений)
         if not os.path.isdir(self.locales_dir):
             os.makedirs(self.locales_dir)
         
@@ -56,7 +57,8 @@ class LocalizationManager(QObject):
             ru_data = {
                 "lang_name": "Русский",
                 "add_task_button": "Добавить", "new_task_placeholder": "Новая задача...",
-                "hide_completed_checkbox": "Скрыть выполненные", "delete_confirm": "Удалить?", "delete_note_tooltip": "Удалить заметку",
+                "hide_completed_checkbox": "Скрыть выполненные",
+                "delete_note_tooltip": "Удалить заметку", "delete_task_tooltip": "Удалить задачу",
                 "notes_editor_label": "Редактор заметок:", "save_button": "Сохранить",
                 "new_note_button": "Новая", "zen_button": "Zen", "search_placeholder": "Поиск по тексту...",
                 "all_tags_combo": "Все теги", "new_note_placeholder": "Начните писать...",
@@ -67,94 +69,49 @@ class LocalizationManager(QObject):
                 "restore_menu": "Восстановить из резервной копии...", "exit_menu": "Выход",
                 "add_list_menu": "Добавить список...", "rename_list_menu": "Переименовать список...", "delete_list_menu": "Удалить список...",
                 "new_list_prompt": "Введите имя нового списка:", "rename_list_prompt": "Введите новое имя для списка:", "delete_list_confirm": "Вы уверены, что хотите удалить список '{list_name}'?",
-                "settings_title": "Настройки", "settings_tab_general": "Общие",
-                "settings_tab_appearance": "Оформление", "settings_tab_zen": "Редактор Zen",
+                "settings_title": "Настройки", "settings_tab_general": "Общие", "settings_tab_appearance": "Оформление", "settings_tab_zen": "Редактор Zen",
                 "settings_lang_label": "Язык:", "settings_theme_label": "Основная тема:",
                 "settings_light_theme": "Светлая", "settings_dark_theme": "Тёмная",
-                "settings_trigger_pos_label": "Позиция кнопки:", "settings_trigger_left": "Слева",
-                "settings_trigger_right": "Справа", "settings_accent_color_label": "Акцентный цвет:",
-                "settings_choose_color_btn": "Выбрать цвет...", "settings_light_theme_bg_label": "Фон светлой темы:",
-                "settings_light_theme_text_label": "Текст светлой темы:", "settings_dark_theme_bg_label": "Фон тёмной темы:",
-                "settings_dark_theme_text_label": "Текст тёмной темы:", "settings_light_theme_list_text_label": "Текст списков (светлая):",
-                "settings_dark_theme_list_text_label": "Текст списков (тёмная):", "settings_zen_bg_label": "Фон Zen:",
-                "settings_browse_btn": "Обзор...", "settings_clear_btn": "Очистить",
-                "settings_transparent_editor": "Прозрачный редактор", "settings_font_label": "Шрифт:",
-                "settings_size_label": "Размер:", "settings_font_color_label": "Цвет шрифта:",
-                "settings_alignment_label": "Выравнивание:", "settings_align_left": "По левому краю",
-                "settings_align_justify": "По ширине", "settings_padding_horiz": "Гор. отступ (%):",
-                "settings_padding_vert": "Верт. отступ (%):", "settings_first_line_indent": "Отступ 1-й строки (px):"
+                "settings_trigger_pos_label": "Позиция кнопки:", "settings_trigger_left": "Слева", "settings_trigger_right": "Справа",
+                "settings_accent_color_label": "Акцентный цвет:", "settings_choose_color_btn": "Выбрать цвет...",
+                "settings_light_theme_bg_label": "Фон светлой темы:", "settings_light_theme_text_label": "Текст светлой темы:",
+                "settings_dark_theme_bg_label": "Фон тёмной темы:", "settings_dark_theme_text_label": "Текст тёмной темы:",
+                "settings_light_theme_list_text_label": "Текст списков (светлая):", "settings_dark_theme_list_text_label": "Текст списков (тёмная):",
+                "settings_zen_bg_label": "Фон Zen:", "settings_browse_btn": "Обзор...", "settings_clear_btn": "Очистить",
+                "settings_transparent_editor": "Прозрачный редактор", "settings_font_label": "Шрифт:", "settings_size_label": "Размер:",
+                "settings_font_color_label": "Цвет шрифта:", "settings_alignment_label": "Выравнивание:",
+                "settings_align_left": "По левому краю", "settings_align_justify": "По ширине",
+                "settings_padding_horiz": "Гор. отступ (%):", "settings_padding_vert": "Верт. отступ (%):",
+                "settings_first_line_indent": "Отступ 1-й строки (px):",
+                "task_menu_edit": "Редактировать...",
+                "task_menu_toggle_completed": "Отметить/Снять отметку"
             }
             with open(ru_path, 'w', encoding='utf-8') as f: json.dump(ru_data, f, ensure_ascii=False, indent=2)
 
         en_path = os.path.join(self.locales_dir, 'en_US.json')
         if not os.path.exists(en_path):
             en_data = {
-                "lang_name": "English",
-                "add_task_button": "Add",
-                "new_task_placeholder": "New task...",
-                "hide_completed_checkbox": "Hide completed",
-                "delete_confirm": "Delete?",
-                "delete_note_tooltip": "Delete note?",
-                "notes_editor_label": "Notes Editor:",
-                "save_button": "Save",
-                "new_note_button": "New",
-                "zen_button": "Zen",
-                "search_placeholder": "Search in text...",
-                "all_tags_combo": "All tags",
-                "new_note_placeholder": "Start writing...",
-                "unsaved_changes_status": "Unsaved changes...",
-                "data_saved_status": "Data saved",
-                "word_count_label": "Words",
-                "pomodoro_label": "Pomodoro:",
-                "pomodoro_start_btn": "Start",
-                "pomodoro_pause_btn": "Pause",
-                "pomodoro_reset_btn": "Reset",
-                "about_menu": "About...",
-                "export_menu": "Export Notes to Markdown...",
-                "restore_menu": "Restore from Backup...",
-                "exit_menu": "Exit",
-                "add_list_menu": "Add List...",
-                "rename_list_menu": "Rename List...",
-                "delete_list_menu": "Delete List...",
-                "new_list_prompt": "Enter new list name:",
-                "rename_list_prompt": "Enter new name for the list:",
-                "delete_list_confirm": "Are you sure you want to delete list '{list_name}'?",
-                "settings_title": "Settings",
-                "settings_tab_general": "General",
-                "settings_tab_appearance": "Appearance",
-                "settings_tab_zen": "Zen Editor",
-                "settings_lang_label": "Language:",
-                "settings_theme_label": "Main theme:",
-                "settings_light_theme": "Light",
-                "settings_dark_theme": "Dark",
-                "settings_trigger_pos_label": "Button position:",
-                "settings_trigger_left": "Left",
-                "settings_trigger_right": "Right",
-                "settings_accent_color_label": "Accent color:",
-                "settings_choose_color_btn": "Choose color...",
-
-                "settings_light_theme_bg_label": "Light theme BG:",
-                "settings_light_theme_text_label": "Light theme Text:",
-                "settings_dark_theme_bg_label": "Dark theme BG:",
-                "settings_dark_theme_text_label": "Dark theme Text:",
-                "settings_light_theme_list_text_label": "List text (light):",
-                "settings_dark_theme_list_text_label": "List text (dark):",
-                "settings_zen_bg_label": "Zen Background:",
-                "settings_browse_btn": "Browse...",
-                "settings_clear_btn": "Clear",
-                "settings_transparent_editor": "Transparent editor",
-                "settings_font_label": "Font:",
-                "settings_size_label": "Size:",
-                "settings_font_color_label": "Font Color:",
-                "settings_alignment_label": "Alignment:",
-                "settings_align_left": "Left",
-                "settings_align_justify": "Justify",
-                "settings_padding_horiz": "Horiz. Padding (%):",
-                "settings_padding_vert": "Vert. Padding (%):",
-                "settings_first_line_indent": "1st line indent (px):"
-                }
+                "lang_name": "English", "add_task_button": "Add", "new_task_placeholder": "New task...", "hide_completed_checkbox": "Hide completed",
+                "delete_note_tooltip": "Delete note", "delete_task_tooltip": "Delete task", "notes_editor_label": "Notes Editor:", "save_button": "Save",
+                "new_note_button": "New", "zen_button": "Zen", "search_placeholder": "Search in text...", "all_tags_combo": "All tags",
+                "new_note_placeholder": "Start writing...", "unsaved_changes_status": "Unsaved changes...", "data_saved_status": "Data saved",
+                "word_count_label": "Words", "pomodoro_label": "Pomodoro:", "pomodoro_start_btn": "Start", "pomodoro_pause_btn": "Pause", "pomodoro_reset_btn": "Reset",
+                "about_menu": "About...", "export_menu": "Export Notes to Markdown...", "restore_menu": "Restore from Backup...", "exit_menu": "Exit",
+                "add_list_menu": "Add List...", "rename_list_menu": "Rename List...", "delete_list_menu": "Delete List...",
+                "new_list_prompt": "Enter new list name:", "rename_list_prompt": "Enter new name for the list:", "delete_list_confirm": "Are you sure you want to delete list '{list_name}'?",
+                "settings_title": "Settings", "settings_tab_general": "General", "settings_tab_appearance": "Appearance", "settings_tab_zen": "Zen Editor",
+                "settings_lang_label": "Language:", "settings_theme_label": "Main theme:", "settings_light_theme": "Light", "settings_dark_theme": "Dark",
+                "settings_trigger_pos_label": "Button position:", "settings_trigger_left": "Left", "settings_trigger_right": "Right",
+                "settings_accent_color_label": "Accent color:", "settings_choose_color_btn": "Choose color...",
+                "settings_light_theme_bg_label": "Light theme BG:", "settings_light_theme_text_label": "Light theme Text:", "settings_dark_theme_bg_label": "Dark theme BG:",
+                "settings_dark_theme_text_label": "Dark theme Text:", "settings_light_theme_list_text_label": "List text (light):", "settings_dark_theme_list_text_label": "List text (dark):",
+                "settings_zen_bg_label": "Zen Background:", "settings_browse_btn": "Browse...", "settings_clear_btn": "Clear",
+                "settings_transparent_editor": "Transparent editor", "settings_font_label": "Font:", "settings_size_label": "Size:", "settings_font_color_label": "Font Color:",
+                "settings_alignment_label": "Alignment:", "settings_align_left": "Left", "settings_align_justify": "Justify",
+                "settings_padding_horiz": "Horiz. Padding (%):", "settings_padding_vert": "Vert. Padding (%):", "settings_first_line_indent": "1st line indent (px):",
+                "task_menu_edit": "Edit...", "task_menu_toggle_completed": "Toggle completed"
+            }
             with open(en_path, 'w', encoding='utf-8') as f: json.dump(en_data, f, ensure_ascii=False, indent=2)
-
 
     def _scan_languages(self):
         langs = {}
@@ -166,8 +123,7 @@ class LocalizationManager(QObject):
                     with open(os.path.join(self.locales_dir, filename), 'r', encoding='utf-8') as f:
                         data = json.load(f)
                         langs[lang_code] = data.get("lang_name", lang_code)
-                except Exception as e:
-                    print(f"Could not load language file {filename}: {e}")
+                except Exception as e: print(f"Could not load language file {filename}: {e}")
         return langs
         
     def set_language(self, lang_code):
@@ -178,98 +134,12 @@ class LocalizationManager(QObject):
                     self.translations = json.load(f)
                 self.current_lang = lang_code
                 self.language_changed.emit()
-            except Exception as e:
-                print(f"Error loading language {lang_code}: {e}")
-        else:
-            print(f"Language file for {lang_code} not found.")
+            except Exception as e: print(f"Error loading language {lang_code}: {e}")
+        else: print(f"Language file for {lang_code} not found.")
 
     def get(self, key, default_text=""):
         return self.translations.get(key, default_text or key)
 
-# --- Вспомогательные классы ---
-class TaskItemWidget(QWidget):
-    task_updated = pyqtSignal()
-    edit_requested = pyqtSignal(object)
-    edit_finished = pyqtSignal()
-
-    def __init__(self, text, is_completed=False):
-        super().__init__(); self.original_text = text
-        self.stacked_layout = QStackedLayout(); self.stacked_layout.setContentsMargins(0, 0, 0, 0)
-        display_widget = QWidget()
-        layout = QHBoxLayout(); layout.setContentsMargins(5, 5, 5, 5)
-        self.checkbox = QCheckBox(); self.checkbox.stateChanged.connect(self._on_state_changed)
-        self.label = QLabel(text); self.label.installEventFilter(self)
-        self.delete_button = QPushButton(); self.delete_button.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_TrashIcon)); self.delete_button.setFixedSize(24, 24); self.delete_button.setStyleSheet("QPushButton { border: none; } QPushButton:hover { background-color: #ffe0e0; border-radius: 5px; }")
-        layout.addWidget(self.delete_button); layout.addWidget(self.checkbox); layout.addWidget(self.label, 1); display_widget.setLayout(layout)
-        edit_widget = QWidget()
-        edit_layout = QHBoxLayout(); edit_layout.setContentsMargins(5, 5, 5, 5)
-        self.edit_input = QLineEdit(text); self.edit_input.returnPressed.connect(self._confirm_edit)
-        self.edit_input.setMinimumHeight(28)
-        confirm_btn = QPushButton(); confirm_btn.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_DialogApplyButton)); confirm_btn.setFixedSize(24, 24); confirm_btn.clicked.connect(self._confirm_edit)
-        cancel_btn = QPushButton(); cancel_btn.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_DialogCancelButton)); cancel_btn.setFixedSize(24, 24); cancel_btn.clicked.connect(self._cancel_edit)
-        edit_layout.addWidget(self.edit_input, 1); edit_layout.addWidget(confirm_btn); edit_layout.addWidget(cancel_btn); edit_widget.setLayout(edit_layout)
-        self.stacked_layout.addWidget(display_widget); self.stacked_layout.addWidget(edit_widget); self.setLayout(self.stacked_layout)
-        self.checkbox.setChecked(is_completed); self.update_style(is_completed)
-    
-    def eventFilter(self, source, event):
-        if source is self.label and event.type() == QEvent.Type.MouseButtonDblClick:
-            if not self.is_completed():
-                self.edit_requested.emit(self)
-            return True
-        return super().eventFilter(source, event)
-    def switch_to_edit_mode(self):
-        self.edit_input.setText(self.original_text); self.stacked_layout.setCurrentIndex(1); self.edit_input.setFocus(); self.edit_input.selectAll()
-    def _confirm_edit(self):
-        new_text = self.edit_input.text().strip()
-        if new_text and new_text != self.original_text:
-            self.original_text = new_text; self.label.setText(new_text)
-        self.stacked_layout.setCurrentIndex(0)
-        self.edit_finished.emit()
-    def _cancel_edit(self):
-        self.stacked_layout.setCurrentIndex(0)
-        self.edit_finished.emit()
-    def _on_state_changed(self, state): self.update_style(state == Qt.CheckState.Checked.value); self.task_updated.emit()
-    
-    def set_text_color(self, color):
-        self._text_color = color
-        self.update_style(self.is_completed())
-
-    def update_style(self, is_completed):
-        font = self.label.font(); font.setStrikeOut(is_completed); self.label.setFont(font)
-        color = QColor(self.palette().color(QPalette.ColorRole.PlaceholderText)).name() if is_completed else getattr(self, '_text_color', '#000000')
-        self.label.setStyleSheet(f"color: {color};")
-
-    def is_completed(self): return self.checkbox.isChecked()
-
-class NoteListItemWidget(QWidget):
-    delete_requested = pyqtSignal()
-    def __init__(self, timestamp_str, loc_manager):
-        super().__init__()
-        self.loc = loc_manager
-        self.stacked_layout = QStackedLayout(); self.stacked_layout.setContentsMargins(0, 0, 0, 0)
-        normal_widget = QWidget()
-        normal_layout = QHBoxLayout(); normal_layout.setContentsMargins(5, 2, 5, 2)
-        self.label = QLabel(timestamp_str); font = self.label.font(); font.setPointSize(9); self.label.setFont(font);
-        self.delete_button = QPushButton(); self.delete_button.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_TrashIcon)); self.delete_button.setFixedSize(20, 20); self.delete_button.setIconSize(QSize(12, 12)); self.delete_button.setStyleSheet("QPushButton { border: none; } QPushButton:hover { background-color: #ffe0e0; border-radius: 5px; }"); self.delete_button.clicked.connect(self._show_confirm_ui)
-        normal_layout.addWidget(self.delete_button); normal_layout.addWidget(self.label, 1); normal_widget.setLayout(normal_layout)
-        confirm_widget = QWidget()
-        confirm_layout = QHBoxLayout(); confirm_layout.setContentsMargins(5, 2, 5, 2)
-        self.confirm_label = QLabel(self.loc.get("delete_confirm")); self.confirm_label.setStyleSheet("color: #dc3545; font-size: 9pt;")
-        confirm_btn = QPushButton(); confirm_btn.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_DialogApplyButton)); confirm_btn.setFixedSize(20, 20); confirm_btn.setIconSize(QSize(14, 14)); confirm_btn.setStyleSheet("QPushButton { border: none; color: green; } QPushButton:hover { background-color: #e0ffe0; border-radius: 5px; }"); confirm_btn.clicked.connect(self.delete_requested.emit)
-        cancel_btn = QPushButton(); cancel_btn.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_DialogCancelButton)); cancel_btn.setFixedSize(20, 20); cancel_btn.setIconSize(QSize(12, 12)); cancel_btn.setStyleSheet("QPushButton { border: none; color: red; } QPushButton:hover { background-color: #ffe0e0; border-radius: 5px; }"); cancel_btn.clicked.connect(self._show_normal_ui)
-        confirm_layout.addStretch(); confirm_layout.addWidget(self.confirm_label); confirm_layout.addWidget(confirm_btn); confirm_layout.addWidget(cancel_btn); confirm_widget.setLayout(confirm_layout)
-        self.stacked_layout.addWidget(normal_widget); self.stacked_layout.addWidget(confirm_widget); self.setLayout(self.stacked_layout)
-        self.retranslate_ui()
-        
-    def set_text_color(self, color):
-        self.label.setStyleSheet(f"color: {color};")
-        
-    def retranslate_ui(self):
-        self.delete_button.setToolTip(self.loc.get("delete_note_tooltip"))
-        self.confirm_label.setText(self.loc.get("delete_confirm"))
-
-    def _show_confirm_ui(self): self.stacked_layout.setCurrentIndex(1)
-    def _show_normal_ui(self): self.stacked_layout.setCurrentIndex(0)
 
 class NoteEditor(QTextEdit):
     save_and_new_requested = pyqtSignal()
@@ -280,8 +150,11 @@ class NoteEditor(QTextEdit):
 
 class AboutDialog(QDialog):
     def __init__(self, parent=None):
-        super().__init__(parent); self.setWindowTitle("О программе"); self.setFixedSize(450, 400); layout = QVBoxLayout(self)
-        info_label = QLabel("<h3>Мой Ассистент v1.6</h3>" # Обновляем версию
+        super().__init__(parent)
+        self.setWindowTitle("О программе")
+        self.setFixedSize(450, 400)
+        layout = QVBoxLayout(self)
+        info_label = QLabel("<h3>Мой Ассистент v1.3</h3>"
                             "<p>Эта программа была создана в рамках совместной работы пользователя и AI-ассистента от Google.</p>"
                             "<p><b>Разработчик:</b> Rintaru123</p>"
                             "<p><b>AI-ассистент:</b> Google</p>"
@@ -292,84 +165,110 @@ class AboutDialog(QDialog):
                             "<p>Иконки предоставлены Qt Framework.</p>"
                             "<hr>"
                             "<p>Лицензии на аудиоматериалы:</p>"
-                            "<p><a target='_blank' href='https://www.bensound.com/free-music-for-videos'>Music by https://www.bensound.com/free-music-for-videos</a><br>"
-                             "License code: DAHEOFFMQKTP738K<br>"
-                            "Artist: : Benjamin Tissot<br>"
-                            "Filename: relaxing.mp3</p>"
-                            "<p><a target='_blank' href='https://www.bensound.com/royalty-free-music'>Music: Bensound.com/royalty-free-music</a><br>"
-                            "License code: WDY7EPJS4MVS7QLQ<br>"
-                            "Artist: : Benjamin Lazzarus<br>"
-                            "Filename: slowlife.mp3</p>"
-                            "<a target='_blank' href='https://icons8.com/icon/gkW5yexEuzan/left-handed'>Левша</a> иконка от <a target='_blank' href='https://icons8.com'>Icons8</a>")
+                            "<p>Purple Dream by Ghostrifter <a target='_blank' href='https://bit.ly/ghostrifter-yt'>bit.ly/ghostrifter-yt</a><br>"
+                            "Creative Commons — Attribution-NoDerivs 3.0 Unported — CC BY-ND 3.0<br>"
+                            "Music promoted by <a target='_blank' href='https://www.chosic.com/free-music/all/'>https://www.chosic.com/free-music/all/ </a></p>"
+                            "<p>И другие...</p>")
 
-        info_label.setWordWrap(True); layout.addWidget(info_label)
+        info_label.setWordWrap(True)
+        info_label.setAlignment(Qt.AlignmentFlag.AlignTop)
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setWidget(info_label)
+        layout.addWidget(scroll_area)
+
         info_label.setOpenExternalLinks(True)
-        buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok); buttons.accepted.connect(self.accept); layout.addWidget(buttons)
+        buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok)
+        buttons.accepted.connect(self.accept)
+        layout.addWidget(buttons)
 
 class TasksPanel(QWidget):
     def __init__(self, data_manager):
-        super().__init__(); self.data_manager = data_manager; self.loc = data_manager.loc_manager
-        self.currently_editing_widget = None
-        self.task_lists = {}; self.current_list_name = ""; self.list_names = []
+        super().__init__()
+        self.data_manager = data_manager
+        self.loc = data_manager.loc_manager
+        self.task_lists = {}
+        self.current_list_name = ""
+        self.list_names = []
 
-        layout = QVBoxLayout(); layout.setContentsMargins(0, 0, 0, 0); layout.setSpacing(10)
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(10)
+
         add_task_layout = QHBoxLayout()
         self.task_input = QLineEdit()
         self.add_button = QPushButton()
-        self.add_button.clicked.connect(self.add_task_from_input); self.task_input.returnPressed.connect(self.add_task_from_input)
-        add_task_layout.addWidget(self.task_input); add_task_layout.addWidget(self.add_button)
+        self.add_button.clicked.connect(self.add_task_from_input)
+        self.task_input.returnPressed.connect(self.add_task_from_input)
+        add_task_layout.addWidget(self.task_input)
+        add_task_layout.addWidget(self.add_button)
         
-        # НОВЫЙ КОМПАКТНЫЙ ЛЕЙАУТ
-        list_mgmt_layout = QHBoxLayout(); list_mgmt_layout.setSpacing(5)
-        self.prev_list_btn = QPushButton("<"); self.prev_list_btn.setFixedSize(24, 24); self.prev_list_btn.clicked.connect(lambda: self.switch_list(-1))
-        self.list_name_label = QLabel(); self.list_name_label.setAlignment(Qt.AlignmentFlag.AlignCenter); self.list_name_label.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        list_mgmt_layout = QHBoxLayout()
+        list_mgmt_layout.setSpacing(5)
+        self.prev_list_btn = QPushButton("<"); self.prev_list_btn.setFixedSize(30, 24)
+        self.prev_list_btn.clicked.connect(lambda: self.switch_list(-1))
+        self.list_name_label = QLabel(); self.list_name_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.list_name_label.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.list_name_label.customContextMenuRequested.connect(self.show_list_context_menu)
-        self.next_list_btn = QPushButton(">"); self.next_list_btn.setFixedSize(24, 24); self.next_list_btn.clicked.connect(lambda: self.switch_list(1))
+        self.next_list_btn = QPushButton(">"); self.next_list_btn.setFixedSize(30, 24)
+        self.next_list_btn.clicked.connect(lambda: self.switch_list(1))
         self.hide_completed_checkbox = QCheckBox()
         self.hide_completed_checkbox.stateChanged.connect(self.filter_tasks)
         list_mgmt_layout.addWidget(self.prev_list_btn); list_mgmt_layout.addWidget(self.list_name_label, 1); list_mgmt_layout.addWidget(self.next_list_btn); list_mgmt_layout.addStretch(); list_mgmt_layout.addWidget(self.hide_completed_checkbox)
 
-        self.task_list_widget = QListWidget();
-        layout.addLayout(add_task_layout); layout.addLayout(list_mgmt_layout); layout.addWidget(self.task_list_widget); self.setLayout(layout)
-        self.retranslate_ui()
+        self.task_list_widget = QListWidget()
+        self.task_list_widget.setObjectName("TaskList") # Уникальное имя для стилизации
+        self.task_list_widget.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.task_list_widget.customContextMenuRequested.connect(self.show_task_context_menu)
+        self.task_list_widget.itemDoubleClicked.connect(self.edit_task)
+        self.task_list_widget.itemClicked.connect(self.toggle_task_completion) # Клик по элементу для отметки
+
+        layout.addLayout(add_task_layout)
+        layout.addLayout(list_mgmt_layout)
+        layout.addWidget(self.task_list_widget)
 
     def retranslate_ui(self):
         self.add_button.setText(self.loc.get("add_task_button"))
         self.task_input.setPlaceholderText(self.loc.get("new_task_placeholder"))
         self.hide_completed_checkbox.setText(self.loc.get("hide_completed_checkbox"))
         self.list_name_label.setToolTip(self.loc.get("list_management_tooltip", "Клик правой кнопкой для управления списками"))
-
-
+    
     def add_task(self, text, is_completed=False):
         if not text: return
-        task_item_widget = TaskItemWidget(text, is_completed)
-        task_item_widget.delete_button.clicked.connect(lambda ch, w=task_item_widget: self.delete_task(w))
-        task_item_widget.task_updated.connect(self.on_task_updated)
-        task_item_widget.edit_requested.connect(self.handle_edit_request)
-        task_item_widget.edit_finished.connect(self.handle_edit_finish)
-        
-        is_dark = self.data_manager.settings.get("theme") == "dark"
-        list_text_color = self.data_manager.settings.get("dark_theme_list_text") if is_dark else self.data_manager.settings.get("light_theme_list_text")
-        task_item_widget.set_text_color(list_text_color)
-        
-        list_item = QListWidgetItem(); list_item.setSizeHint(task_item_widget.sizeHint()); self.task_list_widget.addItem(list_item); self.task_list_widget.setItemWidget(list_item, task_item_widget); self.filter_tasks()
+        item = QListWidgetItem()
+        item.setFlags(item.flags() | Qt.ItemFlag.ItemIsUserCheckable)
+        item.setData(Qt.ItemDataRole.UserRole, {"text": text, "completed": is_completed})
+        item.setSizeHint(QSize(0, 32))
+        self.update_task_item_style(item)
+        self.task_list_widget.addItem(item)
+        self.filter_tasks()
 
-    def handle_edit_request(self, widget_to_edit):
-        if self.currently_editing_widget and self.currently_editing_widget != widget_to_edit:
-            self.currently_editing_widget._cancel_edit()
-        self.currently_editing_widget = widget_to_edit
-        self.currently_editing_widget.switch_to_edit_mode()
+    def update_task_item_style(self, item):
+        task_data = item.data(Qt.ItemDataRole.UserRole)
+        is_completed = task_data.get("completed", False)
+        font = item.font()
+        font.setStrikeOut(is_completed)
+        #font.setUnderline(is_completed) # Подчеркивание
+        item.setFont(font)
 
-    def handle_edit_finish(self):
-        self.currently_editing_widget = None
-        self.data_manager.save_app_data()
+        settings = self.data_manager.get_settings()
+        is_dark = settings.get("theme") == "dark"
+        base_color_hex = settings.get("dark_theme_list_text") if is_dark else settings.get("light_theme_list_text")
+        final_color = QColor(base_color_hex)
 
-    def on_task_updated(self): self.filter_tasks(); self.data_manager.save_app_data()
+        if is_completed:
+            final_color.setAlpha(120)
+
+        item.setForeground(final_color)
+        item.setText(task_data.get("text", ""))
+        item.setCheckState(Qt.CheckState.Checked if is_completed else Qt.CheckState.Unchecked)
+
     def filter_tasks(self, state=None):
         hide = self.hide_completed_checkbox.isChecked()
         for i in range(self.task_list_widget.count()):
-            item = self.task_list_widget.item(i); widget = self.task_list_widget.itemWidget(item)
-            if widget: item.setHidden(hide and widget.is_completed())
+            item = self.task_list_widget.item(i)
+            task_data = item.data(Qt.ItemDataRole.UserRole)
+            if task_data: item.setHidden(hide and task_data.get("completed", False))
             
     def add_task_from_input(self):
         task_text = self.task_input.text().strip()
@@ -378,28 +277,57 @@ class TasksPanel(QWidget):
             self.task_input.clear()
             self.data_manager.save_app_data()
 
-    def delete_task(self, task_widget_to_delete):
-        for i in range(self.task_list_widget.count()):
-            if self.task_list_widget.itemWidget(self.task_list_widget.item(i)) == task_widget_to_delete: self.task_list_widget.takeItem(i); break
+    def show_task_context_menu(self, pos):
+        item = self.task_list_widget.itemAt(pos)
+        if not item: return
+
+        menu = QMenu(self)
+        menu.addAction(self.loc.get("task_menu_edit"), lambda: self.edit_task(item))
+        menu.addAction(self.loc.get("task_menu_toggle_completed"), lambda: self.toggle_task_completion(item))
+        menu.addSeparator()
+        menu.addAction(self.loc.get("delete_task_tooltip"), lambda: self.delete_task(item))
+        menu.exec(self.task_list_widget.mapToGlobal(pos))
+    
+    def edit_task(self, item):
+        if not item: return
+        task_data = item.data(Qt.ItemDataRole.UserRole)
+        old_text = task_data.get("text", "")
+        new_text, ok = QInputDialog.getText(self, self.loc.get("task_menu_edit"), self.loc.get("rename_list_prompt"), QLineEdit.EchoMode.Normal, old_text)
+        if ok and new_text and new_text.strip() != old_text:
+            task_data["text"] = new_text.strip()
+            item.setData(Qt.ItemDataRole.UserRole, task_data)
+            self.update_task_item_style(item)
+            self.data_manager.save_app_data()
+    
+    def toggle_task_completion(self, item):
+        if not item: return
+        task_data = item.data(Qt.ItemDataRole.UserRole)
+        task_data["completed"] = not task_data.get("completed", False)
+        item.setData(Qt.ItemDataRole.UserRole, task_data)
+        self.update_task_item_style(item)
+        self.filter_tasks()
         self.data_manager.save_app_data()
+
+    def delete_task(self, item):
+        row = self.task_list_widget.row(item)
+        if row >= 0:
+            self.task_list_widget.takeItem(row)
+            self.data_manager.save_app_data()
 
     def get_task_lists_data(self):
         if self.current_list_name and self.current_list_name in self.task_lists:
-            self.task_lists[self.current_list_name] = self.get_current_list_data_from_widget()
+            self.task_lists[self.current_list_name] = [self.task_list_widget.item(i).data(Qt.ItemDataRole.UserRole) for i in range(self.task_list_widget.count())]
         return self.task_lists
 
-    def get_current_list_data_from_widget(self):
-        return [{"text": self.task_list_widget.itemWidget(self.task_list_widget.item(i)).original_text, "completed": self.task_list_widget.itemWidget(self.task_list_widget.item(i)).is_completed()} for i in range(self.task_list_widget.count()) if self.task_list_widget.itemWidget(self.task_list_widget.item(i))]
-        
     def load_task_lists(self, task_lists_data, active_list_name):
         self.task_lists = task_lists_data if task_lists_data else {"Default": []}
         self.list_names = sorted(self.task_lists.keys())
-        
-        self.current_list_name = active_list_name if active_list_name in self.list_names else self.list_names[0]
+        self.current_list_name = active_list_name if active_list_name in self.list_names else (self.list_names[0] if self.list_names else "")
         self._load_current_list_display()
 
     def _load_current_list_display(self):
         self.task_list_widget.clear()
+        if not self.current_list_name: return
         self.list_name_label.setText(f"<b>{self.current_list_name}</b>")
         tasks = self.task_lists.get(self.current_list_name, [])
         for t in tasks: self.add_task(t['text'], t['completed'])
@@ -407,10 +335,7 @@ class TasksPanel(QWidget):
 
     def switch_list(self, direction):
         if not self.list_names or len(self.list_names) < 2: return
-        
-        if self.current_list_name:
-            self.task_lists[self.current_list_name] = self.get_current_list_data_from_widget()
-
+        if self.current_list_name: self.task_lists[self.current_list_name] = [self.task_list_widget.item(i).data(Qt.ItemDataRole.UserRole) for i in range(self.task_list_widget.count())]
         current_index = self.list_names.index(self.current_list_name)
         new_index = (current_index + direction) % len(self.list_names)
         self.current_list_name = self.list_names[new_index]
@@ -420,15 +345,14 @@ class TasksPanel(QWidget):
     def show_list_context_menu(self, pos):
         menu = QMenu(self)
         menu.addAction(self.loc.get("add_list_menu"), self.add_new_list)
-        menu.addAction(self.loc.get("rename_list_menu"), self.rename_current_list)
-        if len(self.list_names) > 1:
-            menu.addAction(self.loc.get("delete_list_menu"), self.delete_current_list)
+        if self.current_list_name: menu.addAction(self.loc.get("rename_list_menu"), self.rename_current_list)
+        if len(self.list_names) > 1: menu.addAction(self.loc.get("delete_list_menu"), self.delete_current_list)
         menu.exec(self.list_name_label.mapToGlobal(pos))
     
     def add_new_list(self):
         text, ok = QInputDialog.getText(self, self.loc.get("add_list_menu"), self.loc.get("new_list_prompt"))
         if ok and text and text not in self.task_lists:
-            self.task_lists[self.current_list_name] = self.get_current_list_data_from_widget()
+            if self.current_list_name: self.task_lists[self.current_list_name] = [self.task_list_widget.item(i).data(Qt.ItemDataRole.UserRole) for i in range(self.task_list_widget.count())]
             self.task_lists[text] = []
             self.list_names = sorted(self.task_lists.keys())
             self.current_list_name = text
@@ -438,7 +362,7 @@ class TasksPanel(QWidget):
     def rename_current_list(self):
         text, ok = QInputDialog.getText(self, self.loc.get("rename_list_menu"), self.loc.get("rename_list_prompt"), QLineEdit.EchoMode.Normal, self.current_list_name)
         if ok and text and text != self.current_list_name and text not in self.task_lists:
-            self.task_lists[text] = self.get_current_list_data_from_widget()
+            self.task_lists[text] = [self.task_list_widget.item(i).data(Qt.ItemDataRole.UserRole) for i in range(self.task_list_widget.count())]
             del self.task_lists[self.current_list_name]
             self.list_names = sorted(self.task_lists.keys())
             self.current_list_name = text
@@ -452,30 +376,67 @@ class TasksPanel(QWidget):
             current_index = self.list_names.index(self.current_list_name)
             del self.task_lists[self.current_list_name]
             self.list_names = sorted(self.task_lists.keys())
-            new_index = max(0, current_index - 1)
-            self.current_list_name = self.list_names[new_index]
+            new_index = max(0, current_index - 1) if current_index > 0 else 0
+            self.current_list_name = self.list_names[new_index] if self.list_names else ""
             self._load_current_list_display()
             self.data_manager.save_app_data()
-# ... Продолжение кода ...
+
 
 class NotesPanel(QWidget):
+    # ... (код остается почти без изменений) ...
     zen_mode_requested = pyqtSignal(str, str)
     def __init__(self, data_manager):
-        super().__init__(); self.data_manager = data_manager; self.loc = data_manager.loc_manager; self.current_note_item = None; self.saved_text = ""; self.is_dirty = False; self.all_tags = set();
-        layout = QVBoxLayout(); layout.setContentsMargins(0, 5, 0, 0); layout.setSpacing(5);
+        super().__init__()
+        self.data_manager = data_manager
+        self.loc = data_manager.loc_manager
+        self.current_note_item = None
+        self.saved_text = ""
+        self.is_dirty = False
+        self.all_tags = set()
+        
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(0, 5, 0, 0)
+        layout.setSpacing(5)
+
         self.notes_editor_label = QLabel()
-        self.notes_editor = NoteEditor(); self.notes_editor.textChanged.connect(self.on_editor_text_changed); self.notes_editor.save_and_new_requested.connect(self.handle_save_and_new);
-        button_layout = QHBoxLayout(); save_icon = self.style().standardIcon(QStyle.StandardPixmap.SP_DialogSaveButton); new_icon = self.style().standardIcon(QStyle.StandardPixmap.SP_FileIcon); zen_icon = self.style().standardIcon(QStyle.StandardPixmap.SP_TitleBarMaxButton);
-        self.save_button = QPushButton(); self.save_button.setIcon(save_icon); self.save_button.setObjectName("save_button");
-        self.new_button = QPushButton(); self.new_button.setIcon(new_icon);
-        self.zen_button = QPushButton(); self.zen_button.setIcon(zen_icon);
-        self.save_button.clicked.connect(self.save_current_note); self.new_button.clicked.connect(lambda: self.clear_for_new_note(force=False)); self.zen_button.clicked.connect(self.open_zen_mode); button_layout.addWidget(self.new_button); button_layout.addWidget(self.zen_button); button_layout.addStretch(); button_layout.addWidget(self.save_button);
-        filter_layout = QHBoxLayout(); self.search_input = QLineEdit(); self.search_input.textChanged.connect(self.filter_notes);
-        self.tag_filter_combo = QComboBox(); self.tag_filter_combo.currentIndexChanged.connect(self.filter_notes);
-        filter_layout.addWidget(self.search_input, 1); filter_layout.addWidget(self.tag_filter_combo);
-        self.note_list_widget = QListWidget(); self.note_list_widget.currentItemChanged.connect(self.display_selected_note);
-        layout.addWidget(self.notes_editor_label); layout.addWidget(self.notes_editor, 1); layout.addLayout(button_layout); layout.addLayout(filter_layout); layout.addWidget(self.note_list_widget, 1); self.setLayout(layout)
-        self.retranslate_ui()
+        self.notes_editor = NoteEditor()
+        self.notes_editor.textChanged.connect(self.on_editor_text_changed)
+        self.notes_editor.save_and_new_requested.connect(self.handle_save_and_new)
+
+        button_layout = QHBoxLayout()
+        self.save_button = QPushButton()
+        self.save_button.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_DialogSaveButton))
+        self.save_button.setObjectName("save_button")
+        self.new_button = QPushButton()
+        self.new_button.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_FileIcon))
+        self.zen_button = QPushButton()
+        #self.zen_button.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_TitleBarMaxButton))
+        self.save_button.clicked.connect(self.save_current_note)
+        self.new_button.clicked.connect(lambda: self.clear_for_new_note(force=False))
+        self.zen_button.clicked.connect(self.open_zen_mode)
+        button_layout.addWidget(self.new_button)
+        button_layout.addWidget(self.zen_button)
+        button_layout.addStretch()
+        button_layout.addWidget(self.save_button)
+
+        filter_layout = QHBoxLayout()
+        self.search_input = QLineEdit()
+        self.search_input.textChanged.connect(self.filter_notes)
+        self.tag_filter_combo = QComboBox()
+        self.tag_filter_combo.currentIndexChanged.connect(self.filter_notes)
+        filter_layout.addWidget(self.search_input, 1)
+        filter_layout.addWidget(self.tag_filter_combo)
+
+        self.note_list_widget = QListWidget()
+        self.note_list_widget.currentItemChanged.connect(self.display_selected_note)
+        self.note_list_widget.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.note_list_widget.customContextMenuRequested.connect(self.show_note_context_menu)
+
+        layout.addWidget(self.notes_editor_label)
+        layout.addWidget(self.notes_editor, 1)
+        layout.addLayout(button_layout)
+        layout.addLayout(filter_layout)
+        layout.addWidget(self.note_list_widget, 1)
 
     def retranslate_ui(self):
         self.notes_editor_label.setText(self.loc.get("notes_editor_label"))
@@ -500,6 +461,16 @@ class NotesPanel(QWidget):
         self.tag_filter_combo.blockSignals(False)
         self.filter_notes()
 
+    def show_note_context_menu(self, pos):
+        item = self.note_list_widget.itemAt(pos)
+        if not item: return
+
+        menu = QMenu(self)
+        delete_action = QAction(self.loc.get("delete_note_tooltip"), self)
+        delete_action.triggered.connect(lambda: self.perform_delete_note(item))
+        menu.addAction(delete_action)
+        menu.exec(self.note_list_widget.mapToGlobal(pos))
+    
     def find_tags(self, text): return set(re.findall(r'#(\w+)', text))
     
     def update_tag_filter(self): self.retranslate_ui()
@@ -529,14 +500,14 @@ class NotesPanel(QWidget):
         if self.current_note_item:
             note_data = self.current_note_item.data(Qt.ItemDataRole.UserRole); note_data["text"] = text; self.current_note_item.setData(Qt.ItemDataRole.UserRole, note_data)
         else:
-            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S"); note_data = {"timestamp": timestamp, "text": text}; new_item = self._add_note_item(note_data); self.current_note_item = new_item; self.note_list_widget.blockSignals(True); self.note_list_widget.setCurrentItem(new_item); self.note_list_widget.blockSignals(False)
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S"); note_data = {"timestamp": timestamp, "text": text}; new_item = self.add_note_item(note_data); self.current_note_item = new_item; self.note_list_widget.blockSignals(True); self.note_list_widget.setCurrentItem(new_item); self.note_list_widget.blockSignals(False)
         self.saved_text = text; self.on_editor_text_changed(); self.data_manager.save_app_data()
     
     def load_notes(self, notes_data):
         self.note_list_widget.clear(); self.all_tags.clear()
         sorted_notes = sorted(notes_data, key=lambda x: x.get('timestamp', ''), reverse=True)
         for note in sorted_notes:
-            self._add_note_item(note); self.all_tags.update(self.find_tags(note.get("text", "")))
+            self.add_note_item(note); self.all_tags.update(self.find_tags(note.get("text", "")))
         self.update_tag_filter(); self.clear_for_new_note(force=True)
     
     def open_zen_mode(self):
@@ -565,23 +536,27 @@ class NotesPanel(QWidget):
     def save_if_dirty(self):
         if self.is_dirty: self.save_current_note()
     
-    def _add_note_item(self, note_data):
-        list_item = QListWidgetItem(); list_item.setData(Qt.ItemDataRole.UserRole, note_data); item_widget = NoteListItemWidget(note_data["timestamp"], self.loc)
-        
-        is_dark = self.data_manager.settings.get("theme") == "dark"
-        list_text_color = self.data_manager.settings.get("dark_theme_list_text") if is_dark else self.data_manager.settings.get("light_theme_list_text")
-        item_widget.set_text_color(list_text_color)
-
-        item_widget.delete_requested.connect(lambda li=list_item: self._perform_delete_note(li))
-        list_item.setSizeHint(item_widget.sizeHint()); self.note_list_widget.insertItem(0, list_item); self.note_list_widget.setItemWidget(list_item, item_widget); return list_item
+    def add_note_item(self, note_data):
+        list_item = QListWidgetItem()
+        list_item.setText(note_data["timestamp"])
+        list_item.setData(Qt.ItemDataRole.UserRole, note_data)
+        list_item.setSizeHint(QSize(0, 32))
+        self.note_list_widget.insertItem(0, list_item)
+        return list_item
     
-    def _perform_delete_note(self, item_to_delete):
-        if self.current_note_item == item_to_delete: self.clear_for_new_note(force=True)
-        row = self.note_list_widget.row(item_to_delete); self.note_list_widget.takeItem(row); self.data_manager.save_app_data()
+    def perform_delete_note(self, item_to_delete):
+        if self.note_list_widget.currentItem() == item_to_delete:
+            self.clear_for_new_note(force=True)
+        row = self.note_list_widget.row(item_to_delete)
+        if row >= 0:
+            self.note_list_widget.takeItem(row)
+            self.data_manager.save_app_data()
     
     def get_notes_data(self): return [self.note_list_widget.item(i).data(Qt.ItemDataRole.UserRole) for i in range(self.note_list_widget.count())]
 
+
 class ZenModeWindow(QWidget):
+    # ... (код без изменений)
     zen_exited = pyqtSignal(str); zen_saved_and_closed = pyqtSignal(str); settings_updated_for_saving = pyqtSignal(dict)
     def __init__(self, initial_text, settings, loc_manager):
         super().__init__(); self.settings = settings; self.loc = loc_manager; self.background_pixmap = None; self.player = QMediaPlayer(); self.audio_output = QAudioOutput(); self.player.setAudioOutput(self.audio_output); self.current_playing_button = None; self.playlist_mode = False; self.playlist_files = []; self.playlist_index = 0; self.player.mediaStatusChanged.connect(self.handle_media_status_change); self.pomodoro_timer = QTimer(self); self.pomodoro_timer.timeout.connect(self.update_pomodoro); self.pomodoro_time_left = POMODORO_WORK_TIME; self.is_work_time = True; self.pomodoro_running = False; self.pomodoro_player = QMediaPlayer(); self.pomodoro_audio_output = QAudioOutput(); self.pomodoro_player.setAudioOutput(self.pomodoro_audio_output)
@@ -591,7 +566,7 @@ class ZenModeWindow(QWidget):
         except NameError: pass
         self.main_layout = QVBoxLayout(self); self.main_layout.setSpacing(0); self.main_layout.setContentsMargins(0, 0, 0, 0); 
         self.pomodoro_panel = self.create_pomodoro_panel(); 
-        self.editor = QTextEdit() # Создаем редактор ДО его использования
+        self.editor = QTextEdit()
         self.word_count_label = QLabel("Слов: 0")
         self.audio_panel = self.create_audio_panel()
         self.settings_panel = SettingsPanel(self.settings, self.loc, self)
@@ -605,7 +580,7 @@ class ZenModeWindow(QWidget):
         self.settings_panel.settings_changed.connect(self.update_zen_settings)
         self.loc.language_changed.connect(self.retranslate_ui)
         self.editor.textChanged.connect(self.update_word_count)
-        self.retranslate_ui() # Теперь можно вызывать, все виджеты созданы
+        self.retranslate_ui()
 
         self.settings_button = self.create_settings_button(); self.exit_button = self.create_exit_button(); self.editor.setFocus(); self.update_background(); self._update_styles()
     
@@ -656,8 +631,9 @@ class ZenModeWindow(QWidget):
         if os.path.isdir(audio_dir):
             self.playlist_files = sorted([os.path.join(audio_dir, f) for f in os.listdir(audio_dir) if f.lower().endswith(('.mp3', '.wav', '.ogg'))])
             if self.playlist_files:
-                self.playlist_button = QPushButton(); self.playlist_button.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_MediaPlay)); self.playlist_button.setToolTip("Запустить/Пауза плейлист"); self.playlist_button.setFixedSize(30, 30); self.playlist_button.clicked.connect(self.toggle_playlist); layout.addWidget(self.playlist_button)
-                self.stop_button = QPushButton(); self.stop_button.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_MediaStop)); self.stop_button.setToolTip("Остановить музыку"); self.stop_button.setFixedSize(30, 30); self.stop_button.clicked.connect(self.stop_all_music); layout.addWidget(self.stop_button)
+                self.playlist_button = QPushButton("▶") # Используем текстовый символ; 
+                self.playlist_button.setToolTip("Запустить/Пауза плейлист"); self.playlist_button.setFixedSize(30, 30); self.playlist_button.clicked.connect(self.toggle_playlist); layout.addWidget(self.playlist_button)
+                self.stop_button = QPushButton("■") ; self.stop_button.setToolTip("Остановить музыку"); self.stop_button.setFixedSize(30, 30); self.stop_button.clicked.connect(self.stop_all_music); layout.addWidget(self.stop_button)
             for i, file_path in enumerate(self.playlist_files):
                 btn = QPushButton(f"{i + 1}"); btn.setFixedSize(30, 30); btn.setObjectName("audio_button"); btn.setProperty("audio_path", file_path); btn.setProperty("original_text", f"{i+1}"); btn.clicked.connect(lambda ch, b=btn: self.toggle_single_track(b)); layout.addWidget(btn)
         panel.adjustSize(); return panel
@@ -666,11 +642,15 @@ class ZenModeWindow(QWidget):
     def toggle_playlist(self):
         if not self.playlist_mode: self.start_playlist()
         else:
-            if self.player.playbackState() == QMediaPlayer.PlaybackState.PlayingState: self.player.pause(); self.playlist_button.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_MediaPlay))
-            elif self.player.playbackState() == QMediaPlayer.PlaybackState.PausedState: self.player.play(); self.playlist_button.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_MediaPause))
+            if self.player.playbackState() == QMediaPlayer.PlaybackState.PlayingState:
+                self.player.pause()
+                self.playlist_button.setText("▶")
+            elif self.player.playbackState() == QMediaPlayer.PlaybackState.PausedState:
+                self.player.play()
+                self.playlist_button.setText("❚❚")         
     def start_playlist(self):
         if not self.playlist_files: return
-        self.stop_all_music(); self.playlist_mode = True; self.playlist_index = 0; self.player.setLoops(QMediaPlayer.Loops.Once); self.play_next_in_playlist(); self.playlist_button.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_MediaPause))
+        self.stop_all_music(); self.playlist_mode = True; self.playlist_index = 0; self.player.setLoops(QMediaPlayer.Loops.Once); self.play_next_in_playlist(); self.playlist_button.setText("❚❚")
     def play_next_in_playlist(self):
         if self.playlist_mode and self.playlist_files:
             self.player.setSource(QUrl.fromLocalFile(self.playlist_files[self.playlist_index])); self.player.play(); self.playlist_index = (self.playlist_index + 1) % len(self.playlist_files)
@@ -683,7 +663,8 @@ class ZenModeWindow(QWidget):
             self.stop_all_music(); self.playlist_mode = False; self.player.setLoops(QMediaPlayer.Loops.Infinite); path = button.property("audio_path"); self.player.setSource(QUrl.fromLocalFile(path)); self.player.play(); self.current_playing_button = button; button.setText(""); button.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_MediaPause)); button.setProperty("playing", "true"); button.style().polish(button)
     def stop_all_music(self):
         self.player.stop(); self.playlist_mode = False
-        if hasattr(self, 'playlist_button'): self.playlist_button.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_MediaPlay))
+        if hasattr(self, 'playlist_button'):
+            self.playlist_button.setText("▶")
         self.deactivate_all_buttons()
     def create_settings_button(self): 
         btn = QPushButton(self); btn.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_FileDialogDetailedView)); 
@@ -768,9 +749,9 @@ class ZenModeWindow(QWidget):
             theme_color_str = self.settings.get("dark_theme_bg") if self.settings.get("theme") == "dark" else self.settings.get("light_theme_bg")
             painter.fillRect(self.rect(), QColor(theme_color_str))
 
-# ... Продолжение кода ...
 
 class SettingsPanel(QWidget):
+    # ... (код без изменений)
     settings_changed = pyqtSignal(dict)
     def __init__(self, current_settings, loc_manager, parent=None):
         super().__init__(parent); self.settings = current_settings.copy(); self.loc = loc_manager; self.setWindowFlags(Qt.WindowType.Tool | Qt.WindowType.FramelessWindowHint); self.setObjectName("SettingsPanel")
@@ -970,6 +951,31 @@ class SettingsPanel(QWidget):
                 border-radius: 10px; color: {text_color};
             }} 
             QLabel, QCheckBox, QRadioButton {{ color: {text_color}; background: transparent;}} 
+
+            QCheckBox::indicator, QRadioButton::indicator {{
+                width: 14px;
+                height: 14px;
+                border: 1px solid #555;
+                background-color: {line_edit_bg};
+            }}
+            QCheckBox::indicator {{
+                border-radius: 3px;
+            }}
+            QRadioButton::indicator {{
+                border-radius: 7px; /* делаем круглой */
+            }}
+            QCheckBox::indicator:checked, QRadioButton::indicator:checked {{
+                background-color: {self.settings.get("accent_color")};
+                border-color: {QColor(self.settings.get("accent_color")).darker(115).name()};
+            }}
+            QRadioButton::indicator:checked {{
+                /* Добавляем внутренний кружок для радио-кнопки */
+                image: url(:/qt-project.org/styles/commonstyle/images/radiobutton-on-16.png);
+            }}
+            QCheckBox::indicator:checked {{
+                /* Добавляем галочку для чекбокса */
+                image: url(:/qt-project.org/styles/commonstyle/images/standardbutton-apply-16.png);
+            }}            
             QLineEdit, QSpinBox, QFontComboBox, QComboBox {{ 
                 background-color: {line_edit_bg}; border: 1px solid #555; 
                 color: {text_color}; padding: 4px; border-radius: 3px;
@@ -997,9 +1003,6 @@ class SettingsPanel(QWidget):
         self.settings["language"] = self.lang_combo.currentData()
         self.settings["theme"] = "dark" if self.main_dark_radio.isChecked() else "light"
         self.settings["trigger_pos"] = "left" if self.trigger_left_radio.isChecked() else "right"
-        for key in self.color_widgets:
-            # Этот цикл теперь не нужен для сохранения, так как choose_color делает это
-            pass
         self.settings["zen_bg_path"] = self.bg_path_edit.text()
         self.settings["zen_editor_transparent"] = self.transparent_checkbox.isChecked()
         self.settings["zen_font_family"] = self.font_family_combo.currentFont().family()
@@ -1018,7 +1021,12 @@ class SettingsPanel(QWidget):
 class MainPopup(QWidget):
     animation_finished_and_hidden = pyqtSignal()
     def __init__(self, data_manager):
-        super().__init__(); self._is_closing = False; self.data_manager = data_manager; self.loc = data_manager.loc_manager;
+        super().__init__()
+        self.setObjectName("MainPopup") # Имя для главного окна
+        self._is_closing = False
+        self.data_manager = data_manager
+        self.loc = data_manager.loc_manager
+        
         self.setWindowFlags(Qt.WindowType.Tool | Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint);
         
         main_layout = QVBoxLayout(self); main_layout.setContentsMargins(10, 10, 10, 5); title_bar_layout = QHBoxLayout();
@@ -1028,7 +1036,7 @@ class MainPopup(QWidget):
         self.tasks_panel = TasksPanel(data_manager); self.notes_panel = NotesPanel(data_manager);
         self.status_label = QLabel(); self.status_label.setAlignment(Qt.AlignmentFlag.AlignRight);
         self.splitter = QSplitter(Qt.Orientation.Vertical); self.splitter.addWidget(self.tasks_panel); self.splitter.addWidget(self.notes_panel);
-        main_layout.addWidget(self.splitter); main_layout.addWidget(self.status_label); self.setLayout(main_layout); self.close_button.setObjectName("close_button")
+        main_layout.addWidget(self.splitter); main_layout.addWidget(self.status_label); self.close_button.setObjectName("close_button")
         
         self.pos_animation = QPropertyAnimation(self, b"pos"); self.opacity_animation = QPropertyAnimation(self, b"windowOpacity")
         self.animation_group = QParallelAnimationGroup(self); self.animation_group.addAnimation(self.pos_animation); self.animation_group.addAnimation(self.opacity_animation)
@@ -1049,30 +1057,99 @@ class MainPopup(QWidget):
         text_color = settings.get("dark_theme_text") if is_dark else settings.get("light_theme_text")
         list_text_color = settings.get("dark_theme_list_text") if is_dark else settings.get("light_theme_list_text")
         component_bg = QColor(bg_color).lighter(115).name() if is_dark else QColor(bg_color).darker(105).name()
-        border_color = "#555" if is_dark else "#ced4da"
+        border_color = "#555555" if is_dark else "#ced4da"
         
         stylesheet = f"""
-            QWidget {{ background-color: {bg_color}; color: {text_color}; }} 
-            QLabel {{ color: {text_color}; background-color: transparent; }} 
-            QLabel#titleLabel {{ font-size: 14px; font-weight: bold; }} 
+            QWidget#MainPopup {{ 
+                background-color: {bg_color}; 
+            }}
+            QWidget {{
+                color: {text_color};
+            }} 
+            QLabel {{ 
+                background-color: transparent; 
+            }} 
+            QLabel#titleLabel {{ 
+                font-size: 14px; font-weight: bold; 
+            }} 
             QLineEdit, QTextEdit, QComboBox {{ 
-                background-color: {component_bg}; color: {text_color}; 
-                border: 1px solid {border_color}; border-radius: 4px; padding: 5px; 
+                background-color: {component_bg}; 
+                border: 1px solid {border_color}; 
+                border-radius: 4px; padding: 5px; 
             }} 
-            QListWidget {{ background-color: {component_bg}; border: 1px solid {border_color}; }} 
-            QListWidget::item:hover {{ background-color: rgba(128, 128, 128, 0.2); }} 
-            QListWidget::item:selected {{ 
-                border: 2px solid {accent_color};
+            QListWidget {{ 
+                background-color: {component_bg}; 
+                border: 1px solid {border_color}; 
+            }}
+            QListWidget:focus {{
+                outline: none;
+            }}
+
+            /* --- Стилизация элементов списка --- */
+            QListWidget::item {{
+                color: {list_text_color};
+                padding: 5px; 
                 border-radius: 4px;
-                font-weight: bold;
-            }} 
+            }}
+            QListWidget::item:hover {{
+                background-color: rgba(128, 128, 128, 0.15);
+            }}
+
+            /* --- ОТКЛЮЧАЕМ ВЫДЕЛЕНИЕ В СПИСКЕ ЗАДАЧ --- */
+            QListWidget#TaskList::item:selected {{
+                background-color: transparent;
+                color: {list_text_color};
+            }}
+            
+            QListWidget::item:selected {{
+                background-color: {accent_color};
+                color: white;
+            }}
+            
+            /* --- Стилизация индикатора (галочки) в списке ЗАДАЧ --- */
+            QListWidget::indicator {{
+                width: 14px;
+                height: 14px;
+                border: 1px solid {border_color};
+                border-radius: 3px;
+                background-color: {component_bg};
+            }}
+            QListWidget::indicator:checked {{
+                background-color: {accent_color};
+                border-color: {QColor(accent_color).darker(115).name()};
+                /* image: url(:/qt-project.org/styles/commonstyle/images/standardbutton-apply-16.png); */
+            }}
+            
+            QListWidget::item:checked {{
+                color: gray;
+            }}
+            QListWidget#TaskList::item:selected:checked {{
+                color: gray;
+            }}
+            QListWidget::item:selected:checked {{
+                color: white;
+            }}
+            
             QPushButton {{ 
                 background-color: {component_bg}; 
-                color: {text_color}; border: 1px solid {border_color}; 
+                color: {text_color};
+                border: 1px solid {border_color}; 
                 padding: 5px 10px; border-radius: 4px; 
             }} 
-            QCheckBox {{ color: {text_color}; }} 
-            QPushButton:hover {{ background-color: {QColor(component_bg).lighter(110).name()}; }} 
+            QCheckBox::indicator {{
+                width: 14px;
+                height: 14px;
+                border: 1px solid {border_color};
+                background-color: {component_bg};
+                border-radius: 3px;
+            }}
+            QCheckBox::indicator:checked {{
+                background-color: {accent_color};
+                border-color: {QColor(accent_color).darker(115).name()};
+            }}
+            QPushButton:hover {{ 
+                background-color: {QColor(component_bg).lighter(110).name()}; 
+            }} 
             QPushButton#save_button {{ 
                 background-color: {accent_color}; color: white; border-color: {accent_color}; font-weight: bold; 
             }} 
@@ -1080,41 +1157,52 @@ class MainPopup(QWidget):
                 font-family: 'Arial'; font-size: 14px; font-weight: bold; 
                 background-color: transparent; color: #888; border: none; 
             }} 
-            QPushButton#close_button:hover {{ background-color: #dc3545; color: white; border-radius: 12px; }} 
-            QSplitter::handle {{ background-color: {border_color}; height: 3px; }} 
-            QCheckBox::indicator {{ 
-                border: 1px solid {border_color}; width: 14px; height: 14px; 
-                border-radius: 7px; background-color: {component_bg}; 
+            QPushButton#close_button:hover {{ 
+                background-color: #dc3545; color: white; border-radius: 12px; 
             }} 
-            QCheckBox::indicator:checked {{ background-color: {accent_color}; border-color: {accent_color}; }}
+            QSplitter::handle {{ 
+                background-color: {border_color}; height: 3px; 
+            }}
+            QMenu {{
+                background-color: {component_bg};
+                color: {text_color};
+                border: 1px solid {border_color};
+                border-radius: 4px;
+                padding: 5px;
+            }}
+            QMenu::item {{
+                padding: 5px 25px 5px 20px;
+                border-radius: 4px;
+            }}
+            QMenu::item:selected {{
+                background-color: {accent_color};
+                color: white;
+            }}
+            QMenu::separator {{
+                height: 1px;
+                background: {border_color};
+                margin-left: 10px;
+                margin-right: 10px;
+            }}
         """
         self.setStyleSheet(stylesheet)
-        
+        # Принудительно обновить стили для всех задач
         for i in range(self.tasks_panel.task_list_widget.count()):
-            widget = self.tasks_panel.task_list_widget.itemWidget(self.tasks_panel.task_list_widget.item(i))
-            if widget: widget.set_text_color(list_text_color)
+            self.tasks_panel.update_task_item_style(self.tasks_panel.task_list_widget.item(i))
         
-        for i in range(self.notes_panel.note_list_widget.count()):
-            widget = self.notes_panel.note_list_widget.itemWidget(self.notes_panel.note_list_widget.item(i))
-            if widget: widget.set_text_color(list_text_color)
-
     def on_data_changed(self): self.status_label.setText(self.loc.get("unsaved_changes_status")); self.status_label.setStyleSheet("color: #dc3545; font-size: 10px; margin-right: 5px;")
     def set_status_saved(self): self.status_label.setText(self.loc.get("data_saved_status")); self.status_label.setStyleSheet("color: #28a745; font-size: 10px; margin-right: 5px;")
 
     def show_animated(self, position, from_left=False):
         if self.isVisible(): return
-        
         screen_geo = QApplication.primaryScreen().availableGeometry()
         self.setGeometry(position.x(), screen_geo.y(), 380, screen_geo.height())
-        
         ratio = self.data_manager.settings.get("splitter_ratio", [40, 60])
         total_height = self.splitter.height()
         heights = [int(total_height * (r / 100)) for r in ratio]
         self.splitter.setSizes(heights)
-
         if from_left: start_pos = QPoint(-self.width(), self.y())
         else: start_pos = QPoint(screen_geo.width(), self.y())
-        
         self.pos_animation.setDuration(300); self.pos_animation.setEasingCurve(QEasingCurve.Type.InOutCubic); self.pos_animation.setStartValue(start_pos); self.pos_animation.setEndValue(self.pos())
         self.opacity_animation.setDuration(250); self.opacity_animation.setStartValue(0.0); self.opacity_animation.setEndValue(1.0)
         self.setWindowOpacity(0.0); self.move(start_pos)
@@ -1124,10 +1212,8 @@ class MainPopup(QWidget):
     def hide_animated(self, to_left=False):
         if not self.isVisible() or self._is_closing: return
         self._is_closing = True
-        
         end_x = -self.width() if to_left else self.screen().geometry().width()
         end_pos = QPoint(end_x, self.y())
-        
         self.pos_animation.setStartValue(self.pos()); self.pos_animation.setEndValue(end_pos)
         self.opacity_animation.setStartValue(1.0); self.opacity_animation.setEndValue(0.0)
         self.animation_group.start()
@@ -1141,7 +1227,6 @@ class MainPopup(QWidget):
     def close(self):
         self.hide_animated(to_left = self.data_manager.settings.get("trigger_pos") == "left")
 
-# ... Продолжение кода ...
 
 class TriggerButton(QPushButton):
     def __init__(self, loc_manager):
@@ -1255,7 +1340,13 @@ class TriggerButton(QPushButton):
             except Exception as e: QMessageBox.critical(self, "Ошибка", f"Не удалось экспортировать файл: {e}")
     
     def show_about_dialog(self):
-        if self.about_dialog is None: self.about_dialog = AboutDialog(self)
+        if self.about_dialog is None:
+            self.about_dialog = AboutDialog(self)
+        screen = self.screen().geometry()
+        dlg_size = self.about_dialog.size()
+        x = screen.x() + (screen.width() - dlg_size.width()) // 2
+        y = screen.y() + (screen.height() - dlg_size.height()) // 2
+        self.about_dialog.move(x, y)
         self.about_dialog.exec()
         
     def toggle_popup(self):
@@ -1273,8 +1364,7 @@ class TriggerButton(QPushButton):
         try:
             with open(SETTINGS_FILE, 'w', encoding='utf-8') as f:
                 json.dump(self.settings, f, ensure_ascii=False, indent=4)
-        except Exception as e:
-            print(f"Ошибка сохранения настроек: {e}")
+        except Exception as e: print(f"Ошибка сохранения настроек: {e}")
 
     def load_settings(self):
         try:
@@ -1333,14 +1423,12 @@ class TriggerButton(QPushButton):
         try:
             with open(DATA_FILE, 'w', encoding='utf-8') as f:
                 json.dump(data, f, ensure_ascii=False, indent=4)
-        except Exception as e:
-            print(f"Ошибка сохранения zen-заметки: {e}")
+        except Exception as e: print(f"Ошибка сохранения zen-заметки: {e}")
 
     def mousePressEvent(self, event: QMouseEvent):
         if event.button() == Qt.MouseButton.LeftButton: self.toggle_popup()
         elif event.button() == Qt.MouseButton.RightButton:
             context_menu = QMenu(self)
-            
             about_action = QAction(self.loc.get("about_menu"), self); about_action.triggered.connect(self.show_about_dialog); context_menu.addAction(about_action)
             export_action = QAction(self.loc.get("export_menu"), self); export_action.triggered.connect(self.export_notes_to_markdown)
             restore_action = QAction(self.loc.get("restore_menu"), self); restore_action.triggered.connect(self.restore_from_backup)
@@ -1352,6 +1440,13 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)
     
+    if os.path.exists(SETTINGS_FILE):
+        try: os.remove(SETTINGS_FILE); print("Старый файл настроек удален.")
+        except OSError as e: print(f"Ошибка удаления {SETTINGS_FILE}: {e}")
+    if os.path.exists(DATA_FILE):
+        try: os.remove(DATA_FILE); print("Старый файл данных удален.")
+        except OSError as e: print(f"Ошибка удаления {DATA_FILE}: {e}")
+
     loc_manager = LocalizationManager()
     trigger = TriggerButton(loc_manager)
     trigger.show()
