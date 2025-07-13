@@ -385,6 +385,7 @@ class ZenSettingsPanel(QWidget):
         if file_path:
             try:
                 script_dir = os.path.dirname(os.path.abspath(__file__));
+                #path_to_save = file_path
                 if os.path.commonpath([file_path, script_dir]) == script_dir: path_to_save = os.path.relpath(file_path, script_dir)
                 else: path_to_save = file_path
             except (NameError, Exception): path_to_save = file_path
