@@ -5,15 +5,19 @@ A sleek, modern desktop assistant that lives on the edge of your screen, providi
 This project was born from a fantastic collaboration between a dedicated user and Google's AI assistant, evolving from a simple idea into a feature-rich, polished application.
 
 ---
-![Blank project](https://github.com/rintaru123/myAssistant/blob/main/screenshots/%D0%9F%D1%83%D1%81%D1%82%D0%BE%D0%B9%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82.png)
+![Start button](https://github.com/rintaru123/myAssistant/blob/main/screenshots/Start%20button.png)
 
-![Project with some data](https://github.com/rintaru123/myAssistant/blob/main/screenshots/%D0%97%D0%B0%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82.png)
+![Blank project](https://github.com/rintaru123/myAssistant/blob/main/screenshots/Blank%20main%20form.png)
+
+![Project with some data](https://github.com/rintaru123/myAssistant/blob/main/screenshots/Main%20form%20with%20data.png)
 
 ![Zen mode](https://github.com/rintaru123/myAssistant/blob/main/screenshots/Zen%20mode.png)
 
-![Settings](https://github.com/rintaru123/myAssistant/blob/main/screenshots/Settings.png)
+![Settings1](https://github.com/rintaru123/myAssistant/blob/main/screenshots/Settings1.png)
+![Settings2](https://github.com/rintaru123/myAssistant/blob/main/screenshots/Settings2.png)
+![Settings3](https://github.com/rintaru123/myAssistant/blob/main/screenshots/Settings3.png)
 
-![About](https://github.com/rintaru123/myAssistant/blob/main/screenshots/%D0%9E%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B5.png)
+![About](https://github.com/rintaru123/myAssistant/blob/main/screenshots/Menu.png)
 
 ---
 
