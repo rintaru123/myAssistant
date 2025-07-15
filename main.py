@@ -20,14 +20,14 @@ DATA_FILE = "data.json"
 BACKUP_FILE = "data.json.bak"
 DEFAULT_SETTINGS = {
     "language": "ru_RU",
-    "theme": "light", "trigger_pos": "right", "accent_color": "#007bff",
+    "theme": "light", "trigger_pos": "right", "accent_color": "#00aa00",
     "light_theme_bg": "#f8f9fa", "light_theme_text": "#212529", "light_theme_list_text": "#212529",
     "dark_theme_bg": "#2b2b2b", "dark_theme_text": "#bbbbbb", "dark_theme_list_text": "#bbbbbb",
-    "zen_bg_path": "", "zen_editor_transparent": True,
-    "zen_padding_horiz": 15, "zen_padding_vert": 10,
-    "zen_font_family": "Calibri", "zen_font_size": 17,
+    "zen_bg_path": "wallpapers/прогулка.jpg", "zen_editor_transparent": True,
+    "zen_padding_horiz": 30, "zen_padding_vert": 5,
+    "zen_font_family": "Candara", "zen_font_size": 14,
     "zen_font_color": "", "zen_alignment": "left",
-    "zen_first_line_indent": 0,
+    "zen_first_line_indent": 20,
     "splitter_ratio": [40, 60]
 }
 POMODORO_WORK_TIME = 25*60
@@ -48,7 +48,7 @@ class LocalizationManager(QObject):
         self.current_lang = default_lang
         
     def _ensure_locales_exist(self):
-        # ... (Код локализации остается без изменений)
+
         if not os.path.isdir(self.locales_dir):
             os.makedirs(self.locales_dir)
         
@@ -106,7 +106,7 @@ class LocalizationManager(QObject):
                 "settings_light_theme_bg_label": "Light theme BG:", "settings_light_theme_text_label": "Light theme Text:", "settings_dark_theme_bg_label": "Dark theme BG:",
                 "settings_dark_theme_text_label": "Dark theme Text:", "settings_light_theme_list_text_label": "List text (light):", "settings_dark_theme_list_text_label": "List text (dark):",
                 "settings_zen_bg_label": "Zen Background:", "settings_browse_btn": "Browse...", "settings_clear_btn": "Clear",
-                "settings_transparent_editor": "Transparent editor", "settings_font_label": "Font:", "settings_size_label": "Size:", "settings_font_color_label": "Font Color:",
+                "settings_transparent_editor": "Transparent editor", "settings_font_label": "Font:", "settings_size_label": " :", "settings_font_color_label": "Font Color:",
                 "settings_alignment_label": "Alignment:", "settings_align_left": "Left", "settings_align_justify": "Justify",
                 "settings_padding_horiz": "Horiz. Padding (%):", "settings_padding_vert": "Vert. Padding (%):", "settings_first_line_indent": "1st line indent (px):",
                 "task_menu_edit": "Edit...", "task_menu_toggle_completed": "Toggle completed"
@@ -154,7 +154,7 @@ class AboutDialog(QDialog):
         self.setWindowTitle("О программе")
         self.setFixedSize(450, 400)
         layout = QVBoxLayout(self)
-        info_label = QLabel("<h3>Мой Ассистент v1.3</h3>"
+        info_label = QLabel("<h3>Мой Ассистент v1.1</h3>"
                             "<p>Эта программа была создана в рамках совместной работы пользователя и AI-ассистента от Google.</p>"
                             "<p><b>Разработчик:</b> Rintaru123</p>"
                             "<p><b>AI-ассистент:</b> Google</p>"
@@ -165,10 +165,31 @@ class AboutDialog(QDialog):
                             "<p>Иконки предоставлены Qt Framework.</p>"
                             "<hr>"
                             "<p>Лицензии на аудиоматериалы:</p>"
+                            
                             "<p>Purple Dream by Ghostrifter <a target='_blank' href='https://bit.ly/ghostrifter-yt'>bit.ly/ghostrifter-yt</a><br>"
                             "Creative Commons — Attribution-NoDerivs 3.0 Unported — CC BY-ND 3.0<br>"
                             "Music promoted by <a target='_blank' href='https://www.chosic.com/free-music/all/'>https://www.chosic.com/free-music/all/ </a></p>"
-                            "<p>И другие...</p>")
+                            
+                            "<p>Transcendence by Alexander Nakarada | <a target='_blank' href='https://creatorchords.com'>https://creatorchords.com</a><br>"
+                            "Music promoted by <a target='_blank' href='https://www.chosic.com/free-music/all/'>https://www.chosic.com/free-music/all/</a><br>"
+                            "Creative Commons CC BY 4.0<br>"
+                            "<a target='_blank' href='https://creativecommons.org/licenses/by/4.0/'>https://creativecommons.org/licenses/by/4.0/</a></p>"
+
+                            "<p>Meanwhile by Scott Buckley | <a target='_blank' href='www.scottbuckley.com.au'>www.scottbuckley.com.au</a><br>"
+                            "Music promoted by <a target='_blank' href='https://www.chosic.com/free-music/all/'>https://www.chosic.com/free-music/all/</a><br>"
+                            "Creative Commons CC BY 4.0<br>"
+                            "<a target='_blank' href='https://creativecommons.org/licenses/by/4.0/'>https://creativecommons.org/licenses/by/4.0/</a></p>"
+                            
+                            "<p>Shadows And Dust by Scott Buckley | <a target='_blank' href='www.scottbuckley.com.au'>www.scottbuckley.com.au</a><br>"
+                            "Music promoted by <a target='_blank' href='https://www.chosic.com/free-music/all/'>https://www.chosic.com/free-music/all/</a><br>"
+                            "Creative Commons CC BY 4.0<br>"
+                            "<a target='_blank' href='https://creativecommons.org/licenses/by/4.0/'>https://creativecommons.org/licenses/by/4.0/</a></p>"
+                            
+                            "<p>Silent Wood by Purrple Cat | <a target='_blank' href='https://purrplecat.com/'>https://purrplecat.com/</a><br>"
+                            "Music promoted by <a target='_blank' href='https://www.chosic.com/free-music/all/'>https://www.chosic.com/free-music/all/</a><br>"
+                            "Creative Commons CC BY-SA 3.0<br>"
+                            "<a target='_blank' href='https://creativecommons.org/licenses/by-sa/3.0/'>https://creativecommons.org/licenses/by-sa/3.0/</a></p>"
+                            "<p><a target='_blank' href='https://icons8.com/icon/gkW5yexEuzan/left-handed'>Левша</a> иконка от <a target='_blank' href='https://icons8.com'>Icons8</a></p>")
 
         info_label.setWordWrap(True)
         info_label.setAlignment(Qt.AlignmentFlag.AlignTop)
@@ -669,7 +690,7 @@ class ZenModeWindow(QWidget):
     def create_settings_button(self): 
         btn = QPushButton(self); btn.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_FileDialogDetailedView)); 
         btn.setFixedSize(32, 32); btn.clicked.connect(self.toggle_settings_panel); return btn
-    def create_exit_button(self): btn = QPushButton(self); btn.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_DialogCloseButton)); btn.setFixedSize(32, 32); btn.clicked.connect(self.close); return btn
+    def create_exit_button(self): btn = QPushButton("✕", self);  btn.setFixedSize(32, 32); btn.clicked.connect(self.close); return btn; btn.setFixedSize(32, 32); btn.clicked.connect(self.close); return btn
     
     def toggle_settings_panel(self):
         if self.settings_panel.isVisible():
@@ -698,7 +719,51 @@ class ZenModeWindow(QWidget):
         indent = self.settings.get("zen_first_line_indent", 0)
         
         editor_bg_rgba = f"rgba({editor_bg.red()}, {editor_bg.green()}, {editor_bg.blue()}, {editor_bg.alphaF()})"
-        self.editor.setStyleSheet(f"QTextEdit {{ background-color: {editor_bg_rgba}; border: none; font-family: '{font_family}'; font-size: {font_size}pt; color: {editor_color}; }}")
+        
+        scrollbar_handle_color = "rgba(255, 255, 255, 0.2)" if is_dark else "rgba(0, 0, 0, 0.2)"
+        scrollbar_handle_hover_color = "rgba(255, 255, 255, 0.4)" if is_dark else "rgba(0, 0, 0, 0.4)"
+
+        editor_stylesheet = f"""
+            QTextEdit {{
+                background-color: {editor_bg_rgba};
+                border: none;
+                font-family: '{font_family}';
+                font-size: {font_size}pt;
+                color: {editor_color};
+            }}
+            
+            /* Стилизация вертикальной полосы прокрутки */
+            QScrollBar:vertical {{
+                border: none;
+                background: transparent; /* Фон самой полосы делаем прозрачным */
+                width: 8px; /* Ширина */
+                margin: 0px 0px 0px 0px;
+            }}
+            
+            /* Стилизация ползунка */
+            QScrollBar::handle:vertical {{
+                background: {scrollbar_handle_color};
+                border-radius: 4px; /* Скругляем углы */
+                min-height: 25px; /* Минимальная высота ползунка */
+            }}
+            
+            /* Ползунок при наведении */
+            QScrollBar::handle:vertical:hover {{
+                background: {scrollbar_handle_hover_color};
+            }}
+            
+            /* Убираем кнопки со стрелками сверху и снизу */
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {{
+                border: none;
+                background: none;
+            }}
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {{
+                background: none;
+            }}
+        """
+        self.editor.setStyleSheet(editor_stylesheet)
+        
+
         
         cursor = self.editor.textCursor()
         block_format = cursor.blockFormat()
@@ -710,7 +775,31 @@ class ZenModeWindow(QWidget):
         
         panel_bg = "rgba(0,0,0,0.5)" if is_dark else "rgba(255,255,255,0.6)"; btn_border = "rgba(255,255,255,0.7)" if is_dark else "rgba(0,0,0,0.4)"; btn_bg = "rgba(0,0,0,0.4)" if is_dark else "rgba(255,255,255,0.4)"; btn_color = "white" if is_dark else "black"; btn_hover_bg = "rgba(255,255,255,0.3)" if is_dark else "rgba(0,0,0,0.1)"
         self.audio_panel.setStyleSheet(f'QWidget#audioPanel {{ background: {panel_bg}; border-radius: 15px; }} QPushButton {{ border: 1px solid {btn_border}; border-radius: 15px; background-color: {btn_bg}; color: {btn_color}; font-size: 11pt; font-weight: bold; }} QPushButton:hover {{ background-color: {btn_hover_bg}; }} QPushButton[playing="true"] {{ background-color: {accent_color}; border-color: #ffffff; color: white; }}')
-        floating_btn_bg = "rgba(30,30,30,0.5)" if is_dark else "rgba(240,240,240,0.7)"; floating_btn_style = f"background: {floating_btn_bg}; border-radius: 16px;"; self.settings_button.setStyleSheet(floating_btn_style); self.exit_button.setStyleSheet(floating_btn_style); text_color = '#ccc' if is_dark else '#333'; pomodoro_button_bg = "rgba(255,255,255,0.1)" if is_dark else "rgba(0,0,0,0.05)"; pomodoro_style = f"background-color: transparent; border: none; font-size: 10pt; color: {text_color}; padding: 2px 5px;"
+        floating_btn_bg = "rgba(30,30,30,0.5)" if is_dark else "rgba(240,240,240,0.7)"
+        floating_btn_color = "#e0e0e0" if is_dark else "#333333" # Светлый крестик для тёмной темы и наоборот
+        
+
+        settings_btn_style = f"background: {floating_btn_bg}; border-radius: 16px;"
+        self.settings_button.setStyleSheet(settings_btn_style)
+
+        exit_btn_style = f"""
+            QPushButton {{
+                background: {floating_btn_bg}; 
+                color: {floating_btn_color};
+                border-radius: 16px;
+                border: none;
+                font-family: 'Arial'; 
+                font-size: 14pt; 
+                font-weight: bold;
+            }}
+            QPushButton:hover {{
+                background-color: #dc3545;
+                color: white;
+            }}
+        """
+        self.exit_button.setStyleSheet(exit_btn_style)
+
+        text_color = '#ccc' if is_dark else '#333'; pomodoro_button_bg = "rgba(255,255,255,0.1)" if is_dark else "rgba(0,0,0,0.05)"; pomodoro_style = f"background-color: transparent; border: none; font-size: 10pt; color: {text_color}; padding: 2px 5px;"
         self.pomodoro_title_label.setStyleSheet(f"background-color: transparent; color: {text_color}; font-weight:bold;"); self.pomodoro_label.setStyleSheet(f"background-color: transparent; font-size: 14pt; font-weight: bold; color: {text_color};"); self.pomodoro_start_button.setStyleSheet(pomodoro_style + f" QPushButton:hover {{ background-color: {pomodoro_button_bg}; border-radius: 5px; }}"); self.pomodoro_reset_button.setStyleSheet(pomodoro_style + f" QPushButton:hover {{ background-color: {pomodoro_button_bg}; border-radius: 5px; }}"); self.word_count_label.setStyleSheet(f"background-color: transparent; border: none; color: {text_color}; padding: 5px;")
     
     def update_background(self):
@@ -751,7 +840,6 @@ class ZenModeWindow(QWidget):
 
 
 class SettingsPanel(QWidget):
-    # ... (код без изменений)
     settings_changed = pyqtSignal(dict)
     def __init__(self, current_settings, loc_manager, parent=None):
         super().__init__(parent); self.settings = current_settings.copy(); self.loc = loc_manager; self.setWindowFlags(Qt.WindowType.Tool | Qt.WindowType.FramelessWindowHint); self.setObjectName("SettingsPanel")
@@ -972,14 +1060,18 @@ class SettingsPanel(QWidget):
                 /* Добавляем внутренний кружок для радио-кнопки */
                 image: url(:/qt-project.org/styles/commonstyle/images/radiobutton-on-16.png);
             }}
-            QCheckBox::indicator:checked {{
-                /* Добавляем галочку для чекбокса */
-                image: url(:/qt-project.org/styles/commonstyle/images/standardbutton-apply-16.png);
-            }}            
+          
             QLineEdit, QSpinBox, QFontComboBox, QComboBox {{ 
                 background-color: {line_edit_bg}; border: 1px solid #555; 
                 color: {text_color}; padding: 4px; border-radius: 3px;
             }} 
+            QComboBox QAbstractItemView {{
+                background-color: {line_edit_bg};
+                color: {text_color};
+                border: 1px solid #555;
+                selection-background-color: {self.settings.get("accent_color")};
+                outline: 0px; /* Убирает рамку выделения */
+            }}
             QPushButton {{ 
                 background-color: {button_bg}; color: {text_color}; 
                 border: 1px solid #555; padding: 4px 8px; border-radius: 3px;
@@ -1429,6 +1521,43 @@ class TriggerButton(QPushButton):
         if event.button() == Qt.MouseButton.LeftButton: self.toggle_popup()
         elif event.button() == Qt.MouseButton.RightButton:
             context_menu = QMenu(self)
+            
+            # --- НАЧАЛО ИЗМЕНЕНИЙ ---
+            # Получаем текущие настройки темы, чтобы меню соответствовало
+            settings = self.get_settings()
+            is_dark = settings.get("theme", "light") == "dark"
+            accent_color = settings.get("accent_color", "#007bff")
+            bg_color = settings.get("dark_theme_bg") if is_dark else settings.get("light_theme_bg")
+            text_color = settings.get("dark_theme_text") if is_dark else settings.get("light_theme_text")
+            border_color = "#555555" if is_dark else "#ced4da"
+            component_bg = QColor(bg_color).lighter(115).name() if is_dark else QColor(bg_color).darker(105).name()
+
+            menu_style = f"""
+                QMenu {{
+                    background-color: {component_bg};
+                    color: {text_color};
+                    border: 1px solid {border_color};
+                    border-radius: 4px;
+                    padding: 5px;
+                }}
+                QMenu::item {{
+                    padding: 5px 25px 5px 20px;
+                    border-radius: 4px;
+                }}
+                QMenu::item:selected {{
+                    background-color: {accent_color};
+                    color: white;
+                }}
+                QMenu::separator {{
+                    height: 1px;
+                    background: {border_color};
+                    margin-left: 10px;
+                    margin-right: 10px;
+                }}
+            """
+            context_menu.setStyleSheet(menu_style)
+            # --- КОНЕЦ ИЗМЕНЕНИЙ ---
+
             about_action = QAction(self.loc.get("about_menu"), self); about_action.triggered.connect(self.show_about_dialog); context_menu.addAction(about_action)
             export_action = QAction(self.loc.get("export_menu"), self); export_action.triggered.connect(self.export_notes_to_markdown)
             restore_action = QAction(self.loc.get("restore_menu"), self); restore_action.triggered.connect(self.restore_from_backup)
@@ -1440,12 +1569,12 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)
     
-    if os.path.exists(SETTINGS_FILE):
-        try: os.remove(SETTINGS_FILE); print("Старый файл настроек удален.")
-        except OSError as e: print(f"Ошибка удаления {SETTINGS_FILE}: {e}")
-    if os.path.exists(DATA_FILE):
-        try: os.remove(DATA_FILE); print("Старый файл данных удален.")
-        except OSError as e: print(f"Ошибка удаления {DATA_FILE}: {e}")
+    #if os.path.exists(SETTINGS_FILE):
+    #    try: os.remove(SETTINGS_FILE); print("Старый файл настроек удален.")
+    #    except OSError as e: print(f"Ошибка удаления {SETTINGS_FILE}: {e}")
+    #if os.path.exists(DATA_FILE):
+    #    try: os.remove(DATA_FILE); print("Старый файл данных удален.")
+    #    except OSError as e: print(f"Ошибка удаления {DATA_FILE}: {e}")
 
     loc_manager = LocalizationManager()
     trigger = TriggerButton(loc_manager)
