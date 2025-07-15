@@ -22,22 +22,23 @@ This project was born from a fantastic collaboration between a dedicated user an
 *   **Slide-Out Interface:** Access your tasks and notes instantly from a trigger button on the edge of your screen.
 *   **Task Management:**
     *   Quickly add, delete, and edit tasks.
+    *   **Multiple Task Lists:** Organize tasks into different lists (e.g., "Work," "Personal") and easily switch between them.
     *   Mark tasks as complete with a satisfying circular, theme-aware checkbox.
     *   Hide completed tasks to keep your list clean.
 *   **Note Taking:**
     *   A powerful notes panel for all your ideas.
-    *   **Markdown Support:** Write notes with formatting like `**bold**`, `*italics*`, and more.
     *   **Tagging System:** Organize your notes with hashtags (e.g., `#project`, `#ideas`) and filter by them.
     *   Full-text search to find any note instantly.
 *   **Zen Mode:**
     *   An immersive, distraction-free writing environment that hides all other UI.
-    *   **Built-in Pomodoro Timer** to help you focus.
+    *   **Built-in Pomodoro Timer:** Stay focused with a configurable work/break timer.
     *   **Ambient Audio Player** with playlist and single-track support.
     *   Live word count.
-    *   Fully customizable background, theme, and **fonts**.
+    *   Fully customizable background, theme, and fonts.
 *   **Deep Customization:**
     *   Choose between **light** and **dark** themes for the entire application.
     *   Set a custom **accent color** that affects buttons and UI elements.
+    *   **Fine-grained Theme Control:** Customize the exact background and text colors for both light and dark modes.
     *   Position the trigger button on the **left or right** side of the screen.
 *   **Data Safety:**
     *   **Automatic Backups:** Creates a backup of your data every 10 minutes.
